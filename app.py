@@ -405,8 +405,8 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
         'Decision Tree': 'Delivered **98.54% accuracy** with near-perfect metrics. Achieved **perfect precision(1.0)** and high recall (97.09%), meaning almost no false positives and very few false negatives. The **MCC (0.9712)** confirms strong predictive power. However, there is a potential risk of overfitting, so propervalidation is required before deployment.',
         'K-Nearest Neighbors': 'Obtained **79.02% accuracy** with good **AUC (0.9295)**. Precision(76.32%) and recall (84.47%) are reasonably balanced. The lower **MCC (0.5836)** indicates moderate correlation with actual labels. Performance depends heavily on feature scaling and choice of k, and further tuning may improve results.',
         'Naive Bayes': 'Achieved **80.49% accuracy** with moderate **AUC (0.8423)**. Precision (76.92%) and recall (87.38%) show decent performance in identifying positive cases. The **MCC (0.6153)** indicates moderate overall reliability. The independence assumption may limit effectiveness in medical datasets where features are correlated.',
-        'Random Forest(Ensemble)': 'Achieved **100% accuracy** with perfect scores across all evaluation metrics, including **MCC (1.0)**. The ensemble of 200 trees with balanced class weights captures complex feature interactions effectively. However, perfect scores may indicate overfitting, and external validation is recommended before production use. Provides useful feature importance insights.',
-        'XGBoost(Ensemble)': 'Achieved **98.54% accuracy** with perfect **AUC (1.0)** and precision (1.0). High recall (97.09%) and **MCC (0.9712)** demonstrate strong predictive performance. Built-in regularization reduces overfitting compared to Random Forest. The `scale_pos_weight` parameter effectively handles class imbalance, making it a strong candidate for deployment.'
+        'Random Forest': 'Achieved **100% accuracy** with perfect scores across all evaluation metrics, including **MCC (1.0)**. The ensemble of 200 trees with balanced class weights captures complex feature interactions effectively. However, perfect scores may indicate overfitting, and external validation is recommended before production use. Provides useful feature importance insights.',
+        'XGBoost': 'Achieved **98.54% accuracy** with perfect **AUC (1.0)** and precision (1.0). High recall (97.09%) and **MCC (0.9712)** demonstrate strong predictive performance. Built-in regularization reduces overfitting compared to Random Forest. The `scale_pos_weight` parameter effectively handles class imbalance, making it a strong candidate for deployment.'
     }
     
     obs_data = [
@@ -420,7 +420,7 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
             Paragraph(observations[model], body_style)
         ])
     
-    obs_table = Table(obs_data, colWidths=[120, 200])
+    obs_table = Table(obs_data, colWidths=[120, 250])
     obs_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#000080')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -751,6 +751,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
