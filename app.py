@@ -190,11 +190,12 @@ def get_expected_columns():
 def load_readme_from_github():
     """Load README.md from GitHub repository"""
     try:
-        readme_url = "https://raw.githubusercontent.com/chandramouli-gk/2025AA05418/main/README.md"
-        response = pd.read_csv(readme_url, sep='\n', header=None, dtype=str)
-        readme_content = '\n'.join(response[0].tolist())
+        import urllib.request
+        readme_url = "https://raw.githubusercontent.com/chandramouli-gk/BinaryClassification/main/README.md"
+        with urllib.request.urlopen(readme_url) as response:
+            readme_content = response.read().decode('utf-8')
         return readme_content
-    except:
+    except Exception as e:
         return None
 
 def validate_test_data(df, preprocessor):
@@ -274,69 +275,80 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     # Title
     title = Paragraph("Binary Classification Model Comparison Report", title_style)
     elements.append(title)
-    elements.append(Spacer(1, 10))
+    elements.append(Spacer(1, 5))
     
     # Author info
     author_text = f"<b>Author:</b> ChandraMouli GK | <b>BITS ID:</b> 2025AA05418 | <b>Date:</b> {datetime.now().strftime('%Y-%m-%d')}"
     elements.append(Paragraph(author_text, styles['Normal']))
+    elements.append(Spacer(1, 5))
+    
+    # GitHub Repository Link
+    github_link = '<b>GitHub Repo:</b> <link href="https://github.com/chandramouli-gk/BinaryClassification.git" color="blue">GitHub Repository</link>'
+    elements.append(Paragraph(github_link, styles['Normal']))
+    elements.append(Spacer(1, 5))
+    
+    # Streamlit App Link
+    streamlit_link = '<b>Streamlit App Link:</b> <link href="https://2025aa05418.streamlit.app/" color="blue">2025AA05418 Streamlit App</link>'
+    elements.append(Paragraph(streamlit_link, styles['Normal']))
     elements.append(Spacer(1, 20))
     
-    # Extract content from README if available
+    # Add Bits Lab Verification Image
+    try:
+        import urllib.request
+        image_url = "https://raw.githubusercontent.com/chandramouli-gk/BinaryClassification/main/bits_verification.png"
+        with urllib.request.urlopen(image_url) as response:
+            img_data = response.read()
+        img_buffer = BytesIO(img_data)
+        verification_img = Image(img_buffer, width=5*inch, height=3.5*inch)
+        elements.append(Paragraph("<b>Bits Lab Verification:</b>", styles['Normal']))
+        elements.append(Spacer(1, 10))
+        elements.append(verification_img)
+        elements.append(Spacer(1, 20))
+    except Exception as e:
+        # Fallback if image cannot be loaded
+        bits_lab_link = '<b>Bits Lab Verification Link:</b> <link href="https://raw.githubusercontent.com/chandramouli-gk/BinaryClassification/main/bits_verification.png" color="blue">Bits Lab Verification Image</link>'
+        elements.append(Paragraph(bits_lab_link, styles['Normal']))
+        elements.append(Spacer(1, 20))
+    
+    # Add README content if available
     if readme_content:
-        # Extract Problem Statement
-        if '## a. Problem Statement' in readme_content:
-            problem_start = readme_content.find('## a. Problem Statement')
-            problem_end = readme_content.find('## b. Dataset Description', problem_start)
-            if problem_end != -1:
-                problem_section = readme_content[problem_start:problem_end].strip()
-                # Clean up markdown formatting
-                problem_text = problem_section.replace('## a. Problem Statement', '').strip()
-                problem_text = problem_text.split('\n\n')[0]  # Get first paragraph
-            else:
-                problem_text = "Binary classification of heart disease using machine learning models."
-        else:
-            problem_text = "Binary classification of heart disease using machine learning models."
+        elements.append(PageBreak())
+        elements.append(Paragraph("<b>README Documentation</b>", heading2_style))
+        elements.append(Spacer(1, 15))
         
-        # Extract Dataset Description
-        if '## b. Dataset Description' in readme_content:
-            dataset_start = readme_content.find('## b. Dataset Description')
-            dataset_end = readme_content.find('## c. Models Used', dataset_start)
-            if dataset_end != -1:
-                dataset_section = readme_content[dataset_start:dataset_end].strip()
-                # Extract key info
-                dataset_lines = dataset_section.split('\n')
-                dataset_info = []
-                for line in dataset_lines:
-                    if 'Source:' in line or 'Total Records:' in line or 'Features:' in line or 'Target Variable:' in line or 'Data Split:' in line:
-                        dataset_info.append(line.strip('- ').strip())
-                dataset_text = '<br/>'.join(dataset_info[:5]) if dataset_info else "Heart Disease Dataset with 13 features"
+        # Create a monospace style for code-like content
+        code_style = ParagraphStyle(
+            'CodeStyle',
+            parent=styles['Normal'],
+            fontName='Courier',
+            fontSize=8,
+            leading=10
+        )
+        
+        # Split README into lines and add as paragraphs
+        readme_lines = readme_content.split('\n')
+        for line in readme_lines:
+            # Don't strip to preserve formatting
+            if line.strip():
+                # Escape XML special characters properly
+                safe_line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                # Try to add the line, if it fails skip it
+                try:
+                    if line.startswith('#') or line.startswith('**'):
+                        # Headers or bold text
+                        elements.append(Paragraph(safe_line, styles['Normal']))
+                    else:
+                        elements.append(Paragraph(safe_line, styles['Normal']))
+                except:
+                    # If paragraph fails, just skip this line
+                    pass
             else:
-                dataset_text = "Heart Disease Dataset with 13 features"
-        else:
-            dataset_text = "Heart Disease Dataset with 13 features"
-    else:
-        # Fallback content
-        problem_text = """This assignment develops and compares six machine learning models for binary classification 
-        of heart disease. The task predicts whether a patient has heart disease (1) or not (0) based on clinical and 
-        demographic features. Models are evaluated using Accuracy, AUC, Precision, Recall, F1 Score, and MCC metrics."""
-        dataset_text = """<b>Source:</b> Heart Disease Dataset from Kaggle<br/>
-        <b>Total Records:</b> 1,025 patients<br/>
-        <b>Features:</b> 13 clinical and demographic features<br/>
-        <b>Target Variable:</b> Binary (0 = No disease, 1 = Disease)<br/>
-        <b>Data Split:</b> 80% Training (820 records) / 20% Testing (205 records)"""
-    
-    # Problem Statement
-    elements.append(Paragraph("<b>Problem Statement</b>", heading2_style))
-    elements.append(Paragraph(problem_text, styles['Normal']))
-    elements.append(Spacer(1, 15))
-    
-    # Dataset Description
-    elements.append(Paragraph("<b>Dataset Description</b>", heading2_style))
-    elements.append(Paragraph(dataset_text, styles['Normal']))
-    elements.append(Spacer(1, 15))
-    
+                elements.append(Spacer(1, 8))
+        
+        elements.append(PageBreak())
+
     # Model Performance Summary
-    elements.append(Paragraph("<b>Model Performance Summary</b>", heading2_style))
+    elements.append(Paragraph("<b>Model Performance Summary(Test Data)</b>", heading2_style))
     elements.append(Spacer(1, 10))
     
     # Prepare table data
@@ -366,45 +378,6 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     best_accuracy = results_df['Accuracy'].max()
     best_text = f"<b>Best Performing Model:</b> {best_model} (Accuracy: {best_accuracy:.4f})"
     elements.append(Paragraph(best_text, styles['Normal']))
-    elements.append(PageBreak())
-    
-    # Confusion Matrices
-    elements.append(Paragraph("<b>Confusion Matrices</b>", heading2_style))
-    elements.append(Spacer(1, 10))
-    
-    color_schemes = ['Blues', 'Reds', 'Greens', 'Purples', 'Oranges', 'YlOrRd']
-    
-    for idx, model_name in enumerate(selected_models):
-        # Create confusion matrix
-        cm = confusion_matrix(y_test, predictions[model_name])
-        
-        # Save confusion matrix as image
-        fig, ax = plt.subplots(figsize=(4, 3))
-        sns.heatmap(cm, annot=True, fmt='d', cmap=color_schemes[idx % len(color_schemes)],
-                    cbar=False, ax=ax,
-                    xticklabels=['No Disease', 'Disease'],
-                    yticklabels=['No Disease', 'Disease'])
-        ax.set_xlabel('Predicted', fontsize=9)
-        ax.set_ylabel('True', fontsize=9)
-        ax.set_title(f'{model_name}', fontsize=10, fontweight='bold')
-        plt.tight_layout()
-        
-        # Save to BytesIO
-        img_buffer = BytesIO()
-        plt.savefig(img_buffer, format='png', dpi=150, bbox_inches='tight')
-        img_buffer.seek(0)
-        plt.close()
-        
-        # Add to PDF
-        img = Image(img_buffer, width=3*inch, height=2.5*inch)
-        elements.append(Paragraph(f"<b>{model_name}</b>", styles['Normal']))
-        elements.append(img)
-        elements.append(Spacer(1, 10))
-        
-        # Add 2 per page
-        if (idx + 1) % 2 == 0 and idx < len(selected_models) - 1:
-            elements.append(PageBreak())
-    
     elements.append(PageBreak())
     
     # Body style for wrapped text
@@ -520,9 +493,9 @@ if st.session_state.page == 'main':
         
         with col_test_github:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("Load Test Data", use_container_width=True, help="Load test_data.csv from GitHub"):
+            if st.button("Load Test Data from GITHUB", use_container_width=True, help="Load test_data.csv from GitHub"):
                 try:
-                    github_url = "https://raw.githubusercontent.com/chandramouli-gk/2025AA05418/main/test_data.csv"
+                    github_url = "https://raw.githubusercontent.com/chandramouli-gk/BinaryClassification/main/test_data.csv"
                     st.session_state.uploaded_df = pd.read_csv(github_url)
                     st.success(f"Test data loaded! Shape: {st.session_state.uploaded_df.shape}")
                 except Exception as e:
