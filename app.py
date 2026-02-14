@@ -401,29 +401,12 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     elements.append(Spacer(1, 10))
     
     observations = {
-        'Logistic Regression': 'Achieved **81.95% accuracy** with strong **AUC (0.9081)**, indicating good classdiscrimination. Precision (77.97%) and recall (89.32%) are fairly balanced, 
-        making it reliable for general predictions. As a linear model, it works well when class relationships are linear. The **MCC (0.6457)**suggests moderate overall performance with 
-        limited ability to capture complex patterns.',
-        'Decision Tree': 'Delivered **98.54% accuracy** with near-perfect metrics. Achieved **perfect precision
-        (1.0)** and high recall (97.09%), meaning almost no false positives and very few false negatives. The **MCC
-        (0.9712)** confirms strong predictive power. However, there is a potential risk of overfitting, so proper
-        validation is required before deployment.',
-        'K-Nearest Neighbors': 'Obtained **79.02% accuracy** with good **AUC (0.9295)**. Precision
-        (76.32%) and recall (84.47%) are reasonably balanced. The lower **MCC (0.5836)** indicates moderate
-        correlation with actual labels. Performance depends heavily on feature scaling and choice of k, and further
-        tuning may improve results.',
-        'Naive Bayes': 'Achieved **80.49% accuracy** with moderate **AUC (0.8423)**. Precision (76.92%) and
-        recall (87.38%) show decent performance in identifying positive cases. The **MCC (0.6153)** indicates
-        moderate overall reliability. The independence assumption may limit effectiveness in medical datasets where
-        features are correlated.',
-        'Random Forest (Ensemble)': 'Achieved **100% accuracy** with perfect scores across all evaluation
-        metrics, including **MCC (1.0)**. The ensemble of 200 trees with balanced class weights captures complex
-        feature interactions effectively. However, perfect scores may indicate overfitting, and external validation is
-        recommended before production use. Provides useful feature importance insights.',
-        'XGBoost (Ensemble)': 'Achieved **98.54% accuracy** with perfect **AUC (1.0)** and precision (1.0).
-        High recall (97.09%) and **MCC (0.9712)** demonstrate strong predictive performance. Built-in regularization
-        reduces overfitting compared to Random Forest. The `scale_pos_weight` parameter effectively handles class
-        imbalance, making it a strong candidate for deployment.'
+        'Logistic Regression': 'Achieved **81.95% accuracy** with strong **AUC (0.9081)**, indicating good classdiscrimination. Precision (77.97%) and recall (89.32%) are fairly balanced, making it reliable for general predictions. As a linear model, it works well when class relationships are linear. The **MCC (0.6457)**suggests moderate overall performance with limited ability to capture complex patterns.',
+        'Decision Tree': 'Delivered **98.54% accuracy** with near-perfect metrics. Achieved **perfect precision(1.0)** and high recall (97.09%), meaning almost no false positives and very few false negatives. The **MCC (0.9712)** confirms strong predictive power. However, there is a potential risk of overfitting, so propervalidation is required before deployment.',
+        'K-Nearest Neighbors': 'Obtained **79.02% accuracy** with good **AUC (0.9295)**. Precision(76.32%) and recall (84.47%) are reasonably balanced. The lower **MCC (0.5836)** indicates moderate correlation with actual labels. Performance depends heavily on feature scaling and choice of k, and further tuning may improve results.',
+        'Naive Bayes': 'Achieved **80.49% accuracy** with moderate **AUC (0.8423)**. Precision (76.92%) and recall (87.38%) show decent performance in identifying positive cases. The **MCC (0.6153)** indicates moderate overall reliability. The independence assumption may limit effectiveness in medical datasets where features are correlated.',
+        'Random Forest (Ensemble)': 'Achieved **100% accuracy** with perfect scores across all evaluation metrics, including **MCC (1.0)**. The ensemble of 200 trees with balanced class weights captures complex feature interactions effectively. However, perfect scores may indicate overfitting, and external validation is recommended before production use. Provides useful feature importance insights.',
+        'XGBoost (Ensemble)': 'Achieved **98.54% accuracy** with perfect **AUC (1.0)** and precision (1.0). High recall (97.09%) and **MCC (0.9712)** demonstrate strong predictive performance. Built-in regularization reduces overfitting compared to Random Forest. The `scale_pos_weight` parameter effectively handles class imbalance, making it a strong candidate for deployment.'
     }
     
     obs_data = [
@@ -768,6 +751,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
