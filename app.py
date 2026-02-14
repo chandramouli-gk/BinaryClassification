@@ -73,13 +73,19 @@ st.markdown("""
     }
     .stButton>button {
         background-color: #000080;
-        color: white;
+        color: white !important;
         border-radius: 5px;
         border: none;
         padding: 10px 24px;
+        font-weight: bold !important;
     }
     .stButton>button:hover {
         background-color: #0000CD;
+        color: white !important;
+    }
+    .stButton>button p {
+        color: white !important;
+        font-weight: bold !important;
     }
     .author-info {
         background-color: #000080;
