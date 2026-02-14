@@ -434,7 +434,7 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     ]))
     
     elements.append(obs_table)
-    elements.append(Spacer(1, 15))
+    elements.append(Spacer(1, 5))
     
     # Conclusion
     elements.append(Paragraph("<b>Conclusion</b>", heading2_style))
@@ -751,6 +751,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
