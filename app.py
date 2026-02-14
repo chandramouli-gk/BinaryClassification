@@ -348,7 +348,7 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
         elements.append(PageBreak())
 
     # Model Performance Summary
-    elements.append(Paragraph("<b>Model Performance Summary(Test Data)</b>", heading2_style))
+    elements.append(Paragraph("<b>Model Performance Summary</b>", heading2_style))
     elements.append(Spacer(1, 10))
     
     # Prepare table data
@@ -751,4 +751,5 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
