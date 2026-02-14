@@ -493,7 +493,7 @@ if st.session_state.page == 'main':
         
         with col_test_github:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("Load Test Data from GITHUB", use_container_width=True, help="Load test_data.csv from GitHub"):
+            if st.button("Load Sample Data", use_container_width=True, help="Load test_data.csv from GitHub"):
                 try:
                     github_url = "https://raw.githubusercontent.com/chandramouli-gk/BinaryClassification/main/test_data.csv"
                     st.session_state.uploaded_df = pd.read_csv(github_url)
@@ -751,3 +751,4 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
