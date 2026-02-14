@@ -108,7 +108,7 @@ if 'y_test' not in st.session_state:
 if 'predictions' not in st.session_state:
     st.session_state.predictions = {}
 
-models_dir = 'trained_models'
+models_dir = 'model'
 
 @st.cache_resource
 def load_models():
