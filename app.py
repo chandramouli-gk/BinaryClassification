@@ -734,11 +734,6 @@ elif st.session_state.page == 'results':
     pdf_buffer = export_to_pdf(results_df, st.session_state.predictions, st.session_state.y_test, st.session_state.selected_models)
     st.download_button(
         label="Download Complete PDF Report",
-        colors = {
-            "primary": "#919194",
-            "text": "black",
-            "background": "#919194"
-        },
         data=pdf_buffer,
         file_name=f"ML_Report_2025AA05418_{datetime.now().strftime('%Y%m%d')}.pdf",
         mime="application/pdf",
