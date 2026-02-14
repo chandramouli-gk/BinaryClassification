@@ -283,12 +283,12 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     elements.append(Spacer(1, 5))
     
     # GitHub Repository Link
-    github_link = '<b>GitHub Repo:</b> <link href="https://github.com/chandramouli-gk/BinaryClassification.git" color="blue">GitHub Repository</link>'
+    github_link = '<b>GitHub Repo:</b> <link href="https://github.com/chandramouli-gk/BinaryClassification.git" color="blue">https://github.com/chandramouli-gk/BinaryClassification.git</link>'
     elements.append(Paragraph(github_link, styles['Normal']))
     elements.append(Spacer(1, 5))
     
     # Streamlit App Link
-    streamlit_link = '<b>Streamlit App Link:</b> <link href="https://2025aa05418.streamlit.app/" color="blue">2025AA05418 Streamlit App</link>'
+    streamlit_link = '<b>Streamlit App Link:</b> <link href="https://2025aa05418.streamlit.app/" color="blue">https://2025aa05418.streamlit.app/</link>'
     elements.append(Paragraph(streamlit_link, styles['Normal']))
     elements.append(Spacer(1, 20))
     
@@ -751,5 +751,6 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
