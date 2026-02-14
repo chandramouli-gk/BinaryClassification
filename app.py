@@ -20,15 +20,41 @@ from datetime import datetime
 st.set_page_config(
     page_title="Binary Classification Model Compare", 
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
+    menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': None
+    }
 )
+
+# Force light theme
+st.markdown("""
+<script>
+    window.parent.document.querySelector('body').setAttribute('data-theme', 'light');
+</script>
+""", unsafe_allow_html=True)
 
 # Custom CSS for color scheme (white, blue, black, red)
 st.markdown("""
 <style>
+    /* Force light mode */
+    [data-testid="stAppViewContainer"] {
+        background-color: white;
+    }
+    [data-testid="stHeader"] {
+        background-color: white;
+    }
+    [data-testid="stToolbar"] {
+        background-color: white;
+    }
     .main {
         background-color: white;
+        color: black;
         position: relative;
+    }
+    .stMarkdown, .stText, p, span, div {
+        color: black;
     }
     .watermark {
         position: fixed;
@@ -36,14 +62,14 @@ st.markdown("""
         left: 50%;
         transform: translate(-50%, -50%) rotate(-45deg);
         font-size: 100px;
-        color: rgba(0, 0, 128, 0.025);
+        color: rgba(0, 0, 128, 0.02);
         z-index: 999;
         pointer-events: none;
         font-weight: bold;
         white-space: nowrap;
     }
     h1, h2, h3 {
-        color: #000080 !important;
+        color: #000080;
     }
     .stButton>button {
         background-color: #000080;
@@ -65,11 +91,17 @@ st.markdown("""
         font-size: 14px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
+    .author-info strong {
+        color: white;
+    }
     .stMetric {
         background-color: #f0f8ff;
         padding: 10px;
         border-radius: 5px;
         border: 1px solid #000080;
+    }
+    .stMetric label, .stMetric [data-testid="stMetricValue"] {
+        color: black;
     }
     .success-box {
         background-color: #000080;
