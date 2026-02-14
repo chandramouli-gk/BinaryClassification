@@ -420,7 +420,7 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
             Paragraph(observations[model], body_style)
         ])
     
-    obs_table = Table(obs_data, colWidths=[120, 250])
+    obs_table = Table(obs_data, colWidths=[120, 350])
     obs_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#000080')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -751,6 +751,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
