@@ -438,7 +438,7 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     
     # Conclusion
     elements.append(Paragraph("<b>Conclusion</b>", heading2_style))
-    conclusion_text = f"""This analysis successfully compared six machine learning models for heart disease prediction. 
+    conclusion_text = f"""This analysis successfully compared <b>{selected_models}</b> machine learning models for heart disease prediction. 
     Ensemble methods (Random Forest and XGBoost) significantly outperformed traditional classifiers. 
     <b>{best_model}</b> achieved the best accuracy of <b>{best_accuracy:.4f}</b>, demonstrating exceptional 
     predictive capability for clinical decision support."""
@@ -493,7 +493,7 @@ if st.session_state.page == 'main':
         
         with col_test_github:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("Load Sample Test Data(from GitHub)", use_container_width=True, help="Load test_data.csv from GitHub"):
+            if st.button("Load Sample Test Data(from GitHub)", use_container_width=True, help="Directly load the test_data.csv from GitHub"):
                 try:
                     github_url = "https://raw.githubusercontent.com/chandramouli-gk/BinaryClassification/main/test_data.csv"
                     st.session_state.uploaded_df = pd.read_csv(github_url)
@@ -751,6 +751,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
