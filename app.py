@@ -435,11 +435,26 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
     
     elements.append(obs_table)
     elements.append(Spacer(1, 5))
-    
+
+    ensemble_models = []
+
+    if "Random Forest" in selected_models:
+        ensemble_models.append("Random Forest")
+
+    if "XGBoost" in selected_models:
+        ensemble_models.append("XGBoost")
+
+    if ensemble_models:
+        ensemble_text = (
+            f"Ensemble methods ({' and '.join(ensemble_models)}) "
+            "significantly outperformed traditional classifiers."
+        )
+    else:
+        ensemble_text = ""
     # Conclusion
     elements.append(Paragraph("<b>Conclusion</b>", heading2_style))
     conclusion_text = f"""This analysis successfully compared <b>{selected_models}</b> machine learning models for heart disease prediction. 
-    Ensemble methods (Random Forest and XGBoost) significantly outperformed traditional classifiers. 
+    {ensemble_text} 
     <b>{best_model}</b> achieved the best accuracy of <b>{best_accuracy:.4f}</b>, demonstrating exceptional 
     predictive capability for clinical decision support."""
     elements.append(Paragraph(conclusion_text, styles['Normal']))
@@ -751,6 +766,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
