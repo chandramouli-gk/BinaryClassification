@@ -453,7 +453,7 @@ def export_to_pdf(results_df, predictions, y_test, selected_models):
         ensemble_text = ""
     # Conclusion
     elements.append(Paragraph("<b>Conclusion</b>", heading2_style))
-    conclusion_text = f"""This analysis successfully compared <b>{selected_models}</b> machine learning models for heart disease prediction. 
+    conclusion_text = f"""This analysis successfully compared {len(selected_models)} machine learning models for heart disease prediction. 
     {ensemble_text} 
     <b>{best_model}</b> achieved the best accuracy of <b>{best_accuracy:.4f}</b>, demonstrating exceptional 
     predictive capability for clinical decision support."""
@@ -766,6 +766,7 @@ elif st.session_state.page == 'results':
         st.session_state.predictions = {}
         st.session_state.selected_models = []
         st.rerun()
+
 
 
 
